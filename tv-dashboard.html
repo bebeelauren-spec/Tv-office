@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #14100c;
+    --panel: #1f1a14;
+    --panel-edge: #2b241b;
+    --amber: #c98a3b;
+    --sage: #6b8f71;
+    --parchment: #ede6d6;
+    --muted: #8c8375;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    color: var(--parchment);
+    overflow: hidden;
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5vh 6vw;
+    background-image:
+      radial-gradient(ellipse at 15% 10%, rgba(201,138,59,0.06), transparent 55%),
+      radial-gradient(ellipse at 85% 90%, rgba(107,143,113,0.05), transparent 55%);
+  }
+
+  /* ---- Header: day + date ---- */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid var(--panel-edge);
+    padding-bottom: 2.2vh;
+  }
+
+  .day-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-optical-sizing: auto;
+    font-size: 5.2vw;
+    letter-spacing: -0.01em;
+    color: var(--parchment);
+  }
+
+  .date-full {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.6vw;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* ---- Middle: clock + weather ---- */
+  .middle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+  }
+
+  .clock-block { display: flex; align-items: baseline; gap: 1vw; }
+
+  .clock {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 11vw;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--parchment);
+  }
+
+  .ampm {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 2.2vw;
+    color: var(--amber);
+    letter-spacing: 0.08em;
+  }
+
+  .weather-block {
+    text-align: right;
+    border-left: 1px solid var(--panel-edge);
+    padding-left: 3vw;
+  }
+
+  .temp {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    font-size: 6.5vw;
+    color: var(--sage);
+    line-height: 1;
+  }
+
+  .temp span.unit {
+    font-size: 3vw;
+    vertical-align: super;
+  }
+
+  .weather-desc {
+    font-size: 1.3vw;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 0.6vh;
+  }
+
+  .location {
+    font-size: 1vw;
+    color: var(--muted);
+    margin-top: 0.4vh;
+    letter-spacing: 0.05em;
+  }
+
+  /* ---- Bottom row: news + trivia ---- */
+  .info-row {
+    display: flex;
+    gap: 2.4vw;
+    margin-top: 3vh;
+    align-items: stretch;
+  }
+
+  .panel {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--panel-edge);
+    border-radius: 6px;
+    padding: 2.4vh 2.2vw;
+    box-shadow: 0 1.2vh 2vh rgba(0,0,0,0.35);
+  }
+
+  .panel-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1vw;
+    color: var(--amber);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 1.4vh;
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+  }
+
+  .panel-label::before {
+    content: '';
+    width: 0.6vw;
+    height: 0.6vw;
+    border-radius: 50%;
+    background: var(--amber);
+    display: inline-block;
+  }
+
+  /* subtle pin/clip accent, the signature detail */
+  .panel::before {
+    content: '';
+    position: absolute;
+    top: -1.2vh;
+    left: 2.4vw;
+    width: 2.4vw;
+    height: 1.6vh;
+    background: var(--amber);
+    border-radius: 2px;
+    opacity: 0.85;
+    transform: rotate(-2deg);
+  }
+
+  /* ---- Trivia panel ---- */
+  .trivia-panel {
+    flex: 0 0 42%;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .trivia-panel.fade { opacity: 0; transform: translateY(6px); }
+
+  .trivia-text {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 1.75vw;
+    line-height: 1.4;
+    color: var(--parchment);
+  }
+
+  /* ---- News panel ---- */
+  .news-panel {
+    flex: 1;
+  }
+
+  .news-panel .panel-label::before { background: var(--sage); }
+  .news-panel .panel-label { color: var(--sage); }
+
+  .news-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .news-list li {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 1.25vw;
+    line-height: 1.5;
+    color: var(--parchment);
+    padding: 0.7vh 0;
+    border-bottom: 1px solid var(--panel-edge);
+  }
+
+  .news-list li:last-child { border-bottom: none; }
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="day-name" id="dayName">Loading…</div>
+    <div class="date-full" id="dateFull"></div>
+  </div>
+
+  <div class="middle">
+    <div class="clock-block">
+      <div class="clock" id="clock">--:--</div>
+      <div class="ampm" id="ampm">--</div>
+    </div>
+    <div class="weather-block">
+      <div class="temp" id="temp">--<span class="unit">°F</span></div>
+      <div class="weather-desc" id="weatherDesc">Loading weather…</div>
+      <div class="location">93614</div>
+    </div>
+  </div>
+
+  <div class="info-row">
+    <div class="panel trivia-panel" id="triviaCard">
+      <div class="panel-label">Did you know</div>
+      <div class="trivia-text" id="triviaText">Loading a fact…</div>
+    </div>
+    <div class="panel news-panel">
+      <div class="panel-label">Headlines</div>
+      <ul class="news-list" id="newsList">
+        <li>Loading headlines…</li>
+      </ul>
+    </div>
+  </div>
+
+<script>
+  // ---------- Clock & Date ----------
+  function updateClock() {
+    const now = new Date();
+    let hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours === 0 ? 12 : hours;
+    document.getElementById('clock').textContent = `${hours}:${minutes}`;
+    document.getElementById('ampm').textContent = ampm;
+
+    document.getElementById('dayName').textContent =
+      now.toLocaleDateString('en-US', { weekday: 'long' });
+    document.getElementById('dateFull').textContent =
+      now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // ---------- Weather ----------
+  const ZIP = '93614';
+  const WEATHER_CODES = {
+    0: 'Clear sky', 1: 'Mostly clear', 2: 'Partly cloudy', 3: 'Overcast',
+    45: 'Fog', 48: 'Icy fog', 51: 'Light drizzle', 53: 'Drizzle', 55: 'Heavy drizzle',
+    61: 'Light rain', 63: 'Rain', 65: 'Heavy rain', 71: 'Light snow', 73: 'Snow',
+    75: 'Heavy snow', 80: 'Rain showers', 81: 'Rain showers', 82: 'Violent showers',
+    95: 'Thunderstorm', 96: 'Thunderstorm w/ hail', 99: 'Severe thunderstorm'
+  };
+
+  async function updateWeather() {
+    try {
+      const geoRes = await fetch(`https://api.zippopotam.us/us/${ZIP}`);
+      const geo = await geoRes.json();
+      const lat = geo.places[0].latitude;
+      const lon = geo.places[0].longitude;
+
+      const wRes = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&temperature_unit=fahrenheit&timezone=auto`
+      );
+      const w = await wRes.json();
+      const t = Math.round(w.current.temperature_2m);
+      const code = w.current.weather_code;
+
+      document.getElementById('temp').innerHTML = `${t}<span class="unit">°F</span>`;
+      document.getElementById('weatherDesc').textContent = WEATHER_CODES[code] || 'Current conditions';
+    } catch (e) {
+      document.getElementById('weatherDesc').textContent = 'Weather unavailable';
+    }
+  }
+  updateWeather();
+  setInterval(updateWeather, 15 * 60 * 1000); // refresh every 15 min
+
+  // ---------- Trivia ----------
+  const FALLBACK_FACTS = [
+    "A group of flamingos is called a flamboyance.",
+    "Honey never spoils — archaeologists have found 3,000-year-old honey that's still edible.",
+    "Octopuses have three hearts and blue blood.",
+    "The Eiffel Tower can grow taller in summer due to heat expansion.",
+    "Bananas are botanically classified as berries, but strawberries aren't.",
+    "A day on Venus is longer than a year on Venus.",
+    "Wombat droppings are cube-shaped.",
+    "The shortest war in history lasted 38 minutes, between Britain and Zanzibar in 1896.",
+    "Sharks existed before trees.",
+    "The Great Wall of China is not visible from space with the naked eye.",
+    "Oxford University is older than the Aztec Empire.",
+    "A bolt of lightning is roughly five times hotter than the surface of the sun.",
+    "There are more stars in the universe than grains of sand on all of Earth's beaches.",
+    "Sea otters hold hands while sleeping so they don't drift apart.",
+    "The inventor of the Pringles can is buried in one."
+  ];
+
+  let usedFallbacks = new Set();
+
+  async function fetchFact() {
+    try {
+      const res = await fetch('https://uselessfacts.jsph.pl/api/v2/facts/random?language=en');
+      const data = await res.json();
+      if (data && data.text) return data.text;
+      throw new Error('no text');
+    } catch (e) {
+      // pick a fallback fact not recently used
+      let pool = FALLBACK_FACTS.filter((_, i) => !usedFallbacks.has(i));
+      if (pool.length === 0) { usedFallbacks.clear(); pool = FALLBACK_FACTS; }
+      const idx = Math.floor(Math.random() * pool.length);
+      const fact = pool[idx];
+      usedFallbacks.add(FALLBACK_FACTS.indexOf(fact));
+      return fact;
+    }
+  }
+
+  async function cycleTrivia() {
+    const card = document.getElementById('triviaCard');
+    card.classList.add('fade');
+    setTimeout(async () => {
+      const fact = await fetchFact();
+      document.getElementById('triviaText').textContent = fact;
+      card.classList.remove('fade');
+    }, 600);
+  }
+
+  cycleTrivia();
+  setInterval(cycleTrivia, 2 * 60 * 1000); // every 2 minutes
+
+  // ---------- News headlines ----------
+  const NEWS_FEED = 'https://feeds.npr.org/1001/rss.xml'; // NPR top news
+
+  async function updateNews() {
+    const list = document.getElementById('newsList');
+    try {
+      const res = await fetch(
+        `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(NEWS_FEED)}`
+      );
+      const data = await res.json();
+      if (!data.items || !data.items.length) throw new Error('no items');
+
+      const headlines = data.items.slice(0, 5).map(item => item.title);
+      list.innerHTML = headlines.map(h => `<li>${h}</li>`).join('');
+    } catch (e) {
+      list.innerHTML = '<li>Headlines unavailable</li>';
+    }
+  }
+  updateNews();
+  setInterval(updateNews, 30 * 60 * 1000); // refresh every 30 min
+</script>
+
+</body>
+</html>
