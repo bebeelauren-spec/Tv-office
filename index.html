@@ -128,10 +128,10 @@
     letter-spacing: 0.05em;
   }
 
-  /* ---- Bottom row: news + trivia ---- */
+  /* ---- Bottom row: calendar + news + trivia ---- */
   .info-row {
     display: flex;
-    gap: 2.4vw;
+    gap: 2vw;
     margin-top: 3vh;
     align-items: stretch;
   }
@@ -182,7 +182,7 @@
 
   /* ---- Trivia panel ---- */
   .trivia-panel {
-    flex: 0 0 48%;
+    flex: 0 0 34%;
     transition: opacity 0.6s ease, transform 0.6s ease;
   }
 
@@ -191,14 +191,14 @@
   .trivia-text {
     font-family: 'Fraunces', serif;
     font-weight: 400;
-    font-size: 2.6vw;
+    font-size: 2.2vw;
     line-height: 1.45;
     color: var(--parchment);
   }
 
   /* ---- News panel ---- */
   .news-panel {
-    flex: 1;
+    flex: 0 0 30%;
   }
 
   .news-panel .panel-label::before { background: var(--sage); }
@@ -212,7 +212,7 @@
 
   .news-list li {
     font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 1.25vw;
+    font-size: 1.1vw;
     line-height: 1.5;
     color: var(--parchment);
     padding: 0.7vh 0;
@@ -220,6 +220,25 @@
   }
 
   .news-list li:last-child { border-bottom: none; }
+
+  /* ---- Calendar panel ---- */
+  .calendar-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 1.4vh;
+  }
+
+  .calendar-panel .panel-label::before { background: #7b9bc9; }
+  .calendar-panel .panel-label { color: #7b9bc9; }
+
+  .calendar-panel iframe {
+    width: 100%;
+    flex: 1;
+    border: none;
+    border-radius: 4px;
+    min-height: 24vh;
+  }
 </style>
 </head>
 <body>
@@ -242,6 +261,10 @@
   </div>
 
   <div class="info-row">
+    <div class="panel calendar-panel">
+      <div class="panel-label">Calendar</div>
+      <iframe src="https://calendar.google.com/calendar/embed?src=bebee.lauren%40gmail.com&ctz=America%2FLos_Angeles&mode=AGENDA&showTitle=0&showTabs=0&showCalendars=0&showTz=0&showPrint=0&showNav=0" scrolling="no"></iframe>
+    </div>
     <div class="panel trivia-panel" id="triviaCard">
       <div class="panel-label">Did you know</div>
       <div class="trivia-text" id="triviaText">Loading a fact…</div>
