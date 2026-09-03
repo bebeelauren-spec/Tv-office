@@ -48,21 +48,21 @@
     justify-content: space-between;
     align-items: baseline;
     border-bottom: 1px solid var(--panel-edge);
-    padding-bottom: 2.2vh;
+    padding-bottom: 0.8vh;
   }
 
   .day-name {
     font-family: 'Fraunces', serif;
     font-weight: 500;
     font-optical-sizing: auto;
-    font-size: 5.2vw;
+    font-size: 1.5vw;
     letter-spacing: -0.01em;
     color: var(--parchment);
   }
 
   .date-full {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 1.6vw;
+    font-size: 0.65vw;
     color: var(--muted);
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -73,7 +73,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex: 1;
+    flex: 0 0 auto;
+    padding: 1vh 0;
   }
 
   .clock-block { display: flex; align-items: baseline; gap: 1vw; }
@@ -81,7 +82,7 @@
   .clock {
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 600;
-    font-size: 7vw;
+    font-size: 2vw;
     line-height: 1;
     letter-spacing: -0.02em;
     color: var(--parchment);
@@ -89,7 +90,7 @@
 
   .ampm {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 1.5vw;
+    font-size: 0.55vw;
     color: var(--amber);
     letter-spacing: 0.08em;
   }
@@ -97,34 +98,34 @@
   .weather-block {
     text-align: right;
     border-left: 1px solid var(--panel-edge);
-    padding-left: 3vw;
+    padding-left: 1vw;
   }
 
   .temp {
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 500;
-    font-size: 4.2vw;
+    font-size: 1.4vw;
     color: var(--sage);
     line-height: 1;
   }
 
   .temp span.unit {
-    font-size: 2vw;
+    font-size: 0.7vw;
     vertical-align: super;
   }
 
   .weather-desc {
-    font-size: 1.3vw;
+    font-size: 0.5vw;
     color: var(--muted);
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    margin-top: 0.6vh;
+    margin-top: 0.2vh;
   }
 
   .location {
-    font-size: 1vw;
+    font-size: 0.4vw;
     color: var(--muted);
-    margin-top: 0.4vh;
+    margin-top: 0.2vh;
     letter-spacing: 0.05em;
   }
 
@@ -132,8 +133,9 @@
   .info-row {
     display: flex;
     gap: 2vw;
-    margin-top: 3vh;
+    margin-top: 2vh;
     align-items: stretch;
+    flex: 1;
   }
 
   .panel {
@@ -182,7 +184,7 @@
 
   /* ---- Trivia panel ---- */
   .trivia-panel {
-    flex: 0 0 34%;
+    flex: 0 0 22%;
     transition: opacity 0.6s ease, transform 0.6s ease;
   }
 
@@ -198,7 +200,7 @@
 
   /* ---- News panel ---- */
   .news-panel {
-    flex: 0 0 30%;
+    flex: 0 0 20%;
   }
 
   .news-panel .panel-label::before { background: var(--sage); }
@@ -382,7 +384,7 @@
   setInterval(cycleTrivia, 2 * 60 * 1000); // every 2 minutes
 
   // ---------- News headlines ----------
-  const NEWS_FEED = 'https://feeds.npr.org/1001/rss.xml'; // NPR top news
+  const NEWS_FEED = 'http://feeds.bbci.co.uk/news/world/rss.xml'; // BBC World News
 
   async function updateNews() {
     const list = document.getElementById('newsList');
